@@ -4,9 +4,57 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "54770af51af26d3e657cc7544daba45e",
-    "content-hash": "c3d3400766553a1ade93bfa522e8de26",
+    "hash": "816eadf30ceb5d28a4d2f756b7a5eace",
+    "content-hash": "c1929b4a08cfebf240d6c8977c91c7bc",
     "packages": [
+        {
+            "name": "bezdomni/tactician-pimple",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ihabunek/tactician-pimple.git",
+                "reference": "759f207f18678967e6241e8cd44834bf695a0020"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ihabunek/tactician-pimple/zipball/759f207f18678967e6241e8cd44834bf695a0020",
+                "reference": "759f207f18678967e6241e8cd44834bf695a0020",
+                "shasum": ""
+            },
+            "require": {
+                "league/tactician": "^1.0",
+                "php": ">=5.5",
+                "pimple/pimple": "^3.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Bezdomni\\Tactician\\Pimple\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ivan Habunek",
+                    "email": "ivan.habunek@gmail.com"
+                }
+            ],
+            "description": "Tactician command locator for the Pimple DI container",
+            "keywords": [
+                "container",
+                "league",
+                "locator",
+                "pimple",
+                "tactician"
+            ],
+            "time": "2016-01-23 08:47:38"
+        },
         {
             "name": "easyframework/collections",
             "version": "v7.0.0",
