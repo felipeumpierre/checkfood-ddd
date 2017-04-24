@@ -2,7 +2,8 @@
 
 namespace Checkfood\Infrastructure\Repository;
 
-use Checkfood\Domain\Entity\Ingredient;
+use Checkfood\Domain\Model\Ingredient;
+use Collections\Vector;
 
 interface IngredientRepositoryInterface
 {
@@ -14,14 +15,14 @@ interface IngredientRepositoryInterface
     public function findById(int $id): Ingredient;
 
     /**
-     * @return Collections\Vector
+     * @return Vector
      */
-    public function findAll(): Collections\Vector;
+    public function findAll(): Vector;
 
     /**
      * @param int $id
      *
-     * @return Collections\Vector
+     * @return Vector
      */
-    public function findAllMealsByIngredientId(int $id): Collections\Vector;
+    public function findAllMealsByIngredientId(int $id): Vector;
 }

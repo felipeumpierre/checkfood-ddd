@@ -2,8 +2,9 @@
 
 namespace Checkfood\Infrastructure\Repository;
 
-use Checkfood\Domain\Entity\Meal;
+use Checkfood\Domain\Model\Meal;
 use Checkfood\Infrastructure\Collection\MealCollection;
+use Collections\Vector;
 
 interface MealRepositoryInterface
 {
@@ -17,12 +18,12 @@ interface MealRepositoryInterface
     /**
      * @param int $restaurantId
      *
-     * @return Collections\Vector
+     * @return Vector
      */
-    public function findAllByRestaurant(int $restaurantId): Collections\Vector;
+    public function findAllByRestaurant(int $restaurantId): Vector;
 
     /**
-     * @return Collections\Vector
+     * @return Vector
      */
-    public function findAll(): Collections\Vector;
+    public function findAll(): Vector;
 }

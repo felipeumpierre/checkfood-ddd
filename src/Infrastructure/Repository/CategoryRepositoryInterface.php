@@ -2,7 +2,8 @@
 
 namespace Checkfood\Infrastructure\Repository;
 
-use Checkfood\Domain\Entity\Category;
+use Checkfood\Domain\Model\Category;
+use Collections\Vector;
 
 interface CategoryRepositoryInterface
 {
@@ -14,14 +15,14 @@ interface CategoryRepositoryInterface
     public function findById(int $id): Category;
 
     /**
-     * @return Collections\Vector
+     * @return Vector
      */
-    public function findAll(): Collections\Vector;
+    public function findAll(): Vector;
 
     /**
      * @param int $id
      *
-     * @return Collections\Vector
+     * @return Vector
      */
-    public function findAllMealsByCategoryId(int $id): Collections\Vector;
+    public function findAllMealsByCategoryId(int $id): Vector;
 }

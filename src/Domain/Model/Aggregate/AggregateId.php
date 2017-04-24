@@ -1,6 +1,6 @@
 <?php
 
-namespace Checkfood\Domain\Entity\Aggregate;
+namespace Checkfood\Domain\Model\Aggregate;
 
 class AggregateId
 {
