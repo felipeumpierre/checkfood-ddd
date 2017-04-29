@@ -2,10 +2,27 @@
 
 namespace Checkfood\Business\Command\Category;
 
-class CreateCategoryCommand
+final class CreateCategoryCommand
 {
-    public function __construct()
-    {
+    /**
+     * @var int
+     */
+    private $id;
 
+    /**
+     * @var string
+     */
+    private $name;
+
+    /**
+     * CreateCategoryCommand constructor.
+     *
+     * @param int $id
+     * @param string $name
+     */
+    public function __construct(int $id, string $name)
+    {
+        $this->id = $id;
+        $this->name = $name;
     }
 }
