@@ -4,7 +4,8 @@
         "easyframework/collections": "^7.0",
         "league/tactician": "^1.0",
         "bezdomni/tactician-pimple": "^1.0",
-        "doctrine/dbal": "^2.5"
+        "doctrine/dbal": "^2.5",
+        "ramsey/uuid": "^3.6"
     },
     "autoload": {
         "psr-4": {
