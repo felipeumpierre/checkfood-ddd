@@ -10,8 +10,8 @@ class ApplicationServiceProvider implements ServiceProviderInterface
     /**
      * {@inheritdoc}
      */
-    public function register(Container $pimple)
+    public function register(Container $container)
     {
-        // TODO: Implement register() method.
+
     }
 }
