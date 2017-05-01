@@ -2,7 +2,7 @@
 
 namespace Checkfood\Infrastructure\Repository;
 
-use Doctrine\DBAL\Driver\Connection;
+use Doctrine\DBAL\Connection;
 
 abstract class BaseRepository
 {
