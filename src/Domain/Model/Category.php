@@ -15,7 +15,7 @@ class Category extends Aggregate\AggregateId
      *
      * @return self
      */
-    public function create(int $id, string $name): self
+    public static function create(int $id, string $name): self
     {
         $category = new self;
         $category->id = $id;
