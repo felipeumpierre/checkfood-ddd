@@ -1,6 +1,6 @@
 <?php
 
-namespace Checkfood\Application\Controller;
+namespace Checkfood\Application\Controller\Category;
 
 use Ramsey\Uuid\Uuid;
 use League\Tactician\CommandBus;
@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Checkfood\Business\Command\Category\CreateCategoryCommand;
 
-class CreateCategoryAction
+final class CreateCategoryAction
 {
     /**
      * @var CommandBus
