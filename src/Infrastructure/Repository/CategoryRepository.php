@@ -15,7 +15,24 @@ class CategoryRepository extends BaseRepository implements CategoryRepositoryInt
      */
     public function findById(int $id): Category
     {
-        return new Category();
+        $query = $this->connection->createQueryBuilder()
+            ->select('category_id', 'name')
+            ->from('category')
+            ->where('category_id = ?')
+            ->setParameter(0, $id);
+
+        $stmt = $query->execute();
+
+        $category = $stmt->fetch();
+
+        if (empty($category)) {
+            return new Category();
+        }
+
+        return Category::create(
+            $category['category_id'],
+            $category['name']
+        );
     }
 
     /**
