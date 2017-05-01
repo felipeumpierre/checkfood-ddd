@@ -15,6 +15,6 @@ if [ -f "$WEBROOT/composer.lock" ]; then
   php composer.phar install --no-dev
 fi
 
-cd /var/www/html
+cd /var/www
 git pull || exit 1
-chown -Rf nginx:nginx /var/www/html
+chown -Rf nginx:nginx /var/www

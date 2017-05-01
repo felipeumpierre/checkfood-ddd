@@ -17,8 +17,7 @@ fi
 
 # Set custom webroot
 if [ ! -z "$WEBROOT" ]; then
- webroot=$WEBROOT
- sed -i "s#root /var/www;#root ${webroot};#g" /etc/nginx/sites-available/default.conf
+ sed -i "s#root /var/www;#root ${WEBROOT};#g" /etc/nginx/sites-available/default.conf
 else
  webroot=/var/www
 fi
@@ -36,8 +35,12 @@ fi
 if [ ! -d "/var/www/.git" ]; then
  # Pull down code from git for our site!
  if [ ! -z "$GIT_REPO" ]; then
-   # Remove the test index file
-   rm -Rf /var/www/*
+   # Remove the test index file if you are pulling in a git repo
+   if [ ! -z ${REMOVE_FILES} ] && [ ${REMOVE_FILES} == 0 ]; then
+     echo "skiping removal of files"
+   else
+     rm -Rf /var/www/*
+   fi
    GIT_COMMAND='git clone '
    if [ ! -z "$GIT_BRANCH" ]; then
      GIT_COMMAND=${GIT_COMMAND}" -b ${GIT_BRANCH}"
@@ -58,8 +61,8 @@ if [ ! -d "/var/www/.git" ]; then
 fi
 
 # Try auto install for composer
-if [ -f "$WEBROOT/composer.lock" ]; then
-  php composer.phar install --no-dev
+if [ -f "/var/www/composer.lock" ]; then
+  composer install --no-dev --working-dir=/var/www
 fi
 
 # Enable custom nginx config files if they exist
@@ -145,4 +148,3 @@ fi
 
 # Start supervisord and services
 exec /usr/bin/supervisord -n -c /etc/supervisord.conf
-
