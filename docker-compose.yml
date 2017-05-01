@@ -8,8 +8,6 @@ services:
         - "80:80"
     volumes:
       - "/var/run/docker.sock:/tmp/docker.sock:ro"
-    networks:
-      - webstack
 
   checkfood:
     build: .
@@ -17,25 +15,21 @@ services:
       - "8000:80"
     environment:
       VIRTUAL_HOST: checkfood.dev
+      DATABASE_DBNAME: checkfood
+      DATABASE_USER: checkfood
+      DATABASE_PASSWORD: checkfood
+      DATABASE_HOST: db
+      DATABASE_DRIVER: pdo_pgsql
     volumes:
       - .:/var/www
     links:
-      - postgres
-    networks:
-      - webstack
+      - db
 
-  postgres:
-    image: postgres:9.5
+  db:
+    image: postgres:alpine
     ports:
-        - "5432"
+        - "5432:5432"
     environment:
-        POSTGRES_USER: checkfood
         POSTGRES_PASSWORD: checkfood
-        PGPASSWORD: checkfood
-        PGDATA: /var/lib/postgresql/data/pgdata
-    networks:
-        - webstack
-
-networks:
-  webstack:
-    driver: bridge
+        POSTGRES_USER: checkfood
+        POSTGRES_DB: checkfood
