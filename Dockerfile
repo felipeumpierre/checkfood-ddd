@@ -1,13 +1,12 @@
-FROM php:7.1.2-fpm-alpine
+FROM php:7.1.3-fpm-alpine
 
 MAINTAINER ngineered <support@ngineered.co.uk>
 
 ENV php_conf /usr/local/etc/php-fpm.conf
 ENV fpm_conf /usr/local/etc/php-fpm.d/www.conf
 ENV php_vars /usr/local/etc/php/conf.d/docker-vars.ini
-ENV composer_hash 55d6ead61b29c7bdee5cccfb50076874187bd9f21f65d8991d46ec5cc90518f447387fb9f76ebae1fbbacf329e583e30
 
-ENV NGINX_VERSION 1.11.10
+ENV NGINX_VERSION 1.12.0
 
 RUN GPG_KEYS=B0F4253373F8F6F510D42178520A9993A1C052F8 \
   && CONFIG="\
@@ -137,6 +136,7 @@ RUN echo @testing http://nl.alpinelinux.org/alpine/edge/testing >> /etc/apk/repo
     echo /etc/apk/respositories && \
     apk update && \
     apk add --no-cache bash \
+    postgresql-dev \
     openssh-client \
     wget \
     supervisor \
@@ -160,6 +160,7 @@ RUN echo @testing http://nl.alpinelinux.org/alpine/edge/testing >> /etc/apk/repo
     libxslt-dev \
     libffi-dev \
     freetype-dev \
+    sqlite-dev \
     libjpeg-turbo-dev && \
     docker-php-ext-configure gd \
       --with-gd \
@@ -167,13 +168,14 @@ RUN echo @testing http://nl.alpinelinux.org/alpine/edge/testing >> /etc/apk/repo
       --with-png-dir=/usr/include/ \
       --with-jpeg-dir=/usr/include/ && \
     #curl iconv session
-    docker-php-ext-install pdo_mysql mysqli mcrypt gd exif intl xsl json soap dom zip && \
+    docker-php-ext-install pdo pdo_mysql pdo_sqlite pdo_pgsql mysqli mcrypt gd exif intl xsl json soap dom zip opcache && \
+    docker-php-source delete && \
     mkdir -p /etc/nginx && \
-    mkdir -p /var/www/app && \
     mkdir -p /run/nginx && \
     mkdir -p /var/log/supervisor && \
+    EXPECTED_COMPOSER_SIGNATURE=$(wget -q -O - https://composer.github.io/installer.sig) && \
     php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" && \
-    php -r "if (hash_file('SHA384', 'composer-setup.php') === '${composer_hash}') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;" && \
+    php -r "if (hash_file('SHA384', 'composer-setup.php') === '${EXPECTED_COMPOSER_SIGNATURE}') { echo 'Composer.phar Installer verified'; } else { echo 'Composer.phar Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;" && \
     php composer-setup.php --install-dir=/usr/bin --filename=composer && \
     php -r "unlink('composer-setup.php');"  && \
     pip install -U pip && \
@@ -193,7 +195,8 @@ RUN mkdir -p /etc/nginx/sites-available/ && \
 mkdir -p /etc/nginx/sites-enabled/ && \
 mkdir -p /etc/nginx/ssl/ && \
 mkdir -p /etc/nginx/logs/ && \
-rm -Rf /var/www/*
+rm -Rf /var/www && \
+mkdir /var/www
 ADD conf/nginx-site.conf /etc/nginx/sites-available/default.conf
 ADD conf/nginx-site-ssl.conf /etc/nginx/sites-available/default-ssl.conf
 RUN ln -s /etc/nginx/sites-available/default.conf /etc/nginx/sites-enabled/default.conf
