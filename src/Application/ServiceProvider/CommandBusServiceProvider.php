@@ -4,7 +4,9 @@ namespace Checkfood\Application\ServiceProvider;
 
 use Bezdomni\Tactician\Pimple\PimpleLocator;
 use Checkfood\Business\Command\Category\CreateCategoryCommand;
+use Checkfood\Business\Command\Category\ListCategoryCommand;
 use Checkfood\Business\Handler\Category\CreateCategoryHandler;
+use Checkfood\Business\Handler\Category\ListCategoryHandler;
 use Checkfood\Domain\Repository\CategoryRepositoryInterface;
 use Checkfood\Infrastructure\Tactician\DbalTransactionMiddleware;
 use League\Tactician\CommandBus;
@@ -68,6 +70,7 @@ class CommandBusServiceProvider implements ServiceProviderInterface
                 $container,
                 [
                     CreateCategoryCommand::class => CreateCategoryHandler::class,
+                    ListCategoryCommand::class => ListCategoryHandler::class,
                 ]
             );
         };
@@ -80,6 +83,12 @@ class CommandBusServiceProvider implements ServiceProviderInterface
     {
         $container[CreateCategoryHandler::class] = function (Container $container) {
             return new CreateCategoryHandler(
+                $container[CategoryRepositoryInterface::class]
+            );
+        };
+
+        $container[ListCategoryHandler::class] = function (Container $container) {
+            return new ListCategoryHandler(
                 $container[CategoryRepositoryInterface::class]
             );
         };
