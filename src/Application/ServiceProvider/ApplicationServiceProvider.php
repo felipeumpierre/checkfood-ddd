@@ -4,7 +4,7 @@ namespace Checkfood\Application\ServiceProvider;
 
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
-use Checkfood\Application\Controller\CreateCategoryAction;
+use Checkfood\Application\Controller;
 
 class ApplicationServiceProvider implements ServiceProviderInterface
 {
@@ -13,16 +13,22 @@ class ApplicationServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $container)
     {
-        $this->registerController($container);
+        $this->registerCategoryController($container);
     }
 
     /**
      * @param Container $container
      */
-    private function registerController(Container $container)
+    private function registerCategoryController(Container $container)
     {
-        $container[CreateCategoryAction::class] = function (Container $container) {
-            return new CreateCategoryAction(
+        $container[Controller\Category\CreateCategoryAction::class] = function (Container $container) {
+            return new Controller\Category\CreateCategoryAction(
+                $container['bus']
+            );
+        };
+
+        $container[Controller\Category\ListCategoryAction::class] = function (Container $container) {
+            return new Controller\Category\ListCategoryAction(
                 $container['bus']
             );
         };
