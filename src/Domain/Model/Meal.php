@@ -2,7 +2,7 @@
 
 namespace Checkfood\Domain\Model;
 
-class Meal extends Aggregate\AggregateId
+class Meal extends Aggregate\AggregateId implements \JsonSerializable
 {
     /**
      * @param int $categoryId
@@ -55,5 +55,17 @@ class Meal extends Aggregate\AggregateId
     public function equal(Meal $meal): bool
     {
         return ($this->categoryId === $meal->categoryId && $this->price === $meal->price);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function jsonSerialize()
+    {
+        return [
+            'id' => $this->id,
+            'category_id' => $this->categoryId,
+            'price' => $this->price,
+        ];
     }
 }

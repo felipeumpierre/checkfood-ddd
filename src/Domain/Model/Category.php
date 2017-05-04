@@ -2,7 +2,7 @@
 
 namespace Checkfood\Domain\Model;
 
-class Category extends Aggregate\AggregateId
+final class Category extends Aggregate\AggregateId implements \JsonSerializable
 {
     /**
      * @param string $name
@@ -40,5 +40,16 @@ class Category extends Aggregate\AggregateId
     public function equal(Category $category): bool
     {
         return $this->name == $category->getName();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function jsonSerialize()
+    {
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+        ];
     }
 }
