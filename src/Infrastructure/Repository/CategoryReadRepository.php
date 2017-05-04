@@ -22,7 +22,6 @@ class CategoryRepository extends BaseRepository implements CategoryRepositoryInt
             ->setParameter(0, $id);
 
         $stmt = $query->execute();
-
         $category = $stmt->fetch();
 
         if (empty($category)) {
@@ -51,5 +50,13 @@ class CategoryRepository extends BaseRepository implements CategoryRepositoryInt
     public function findAllMealsByCategoryId(int $id): Vector
     {
         return new Vector();
+    }
+
+    public function delete(Category $category): int
+    {
+        return $this->connection->delete(
+            'category',
+            ['category_id' => $category->getId()]
+        );
     }
 }
