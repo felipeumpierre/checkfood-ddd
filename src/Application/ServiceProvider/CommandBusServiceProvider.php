@@ -5,9 +5,12 @@ namespace Checkfood\Application\ServiceProvider;
 use Bezdomni\Tactician\Pimple\PimpleLocator;
 use Checkfood\Business\Command\Category\CreateCategoryCommand;
 use Checkfood\Business\Command\Category\ListCategoryCommand;
+use Checkfood\Business\Command\Category\UpdateCategoryCommand;
 use Checkfood\Business\Handler\Category\CreateCategoryHandler;
 use Checkfood\Business\Handler\Category\ListCategoryHandler;
-use Checkfood\Domain\Repository\CategoryRepositoryInterface;
+use Checkfood\Business\Handler\Category\UpdateCategoryHandler;
+use Checkfood\Domain\Repository\CategoryReadRepositoryInterface;
+use Checkfood\Domain\Repository\CategoryWriteRepositoryInterface;
 use Checkfood\Infrastructure\Tactician\DbalTransactionMiddleware;
 use League\Tactician\CommandBus;
 use League\Tactician\Handler\CommandHandlerMiddleware;
@@ -71,6 +74,7 @@ class CommandBusServiceProvider implements ServiceProviderInterface
                 [
                     CreateCategoryCommand::class => CreateCategoryHandler::class,
                     ListCategoryCommand::class => ListCategoryHandler::class,
+                    UpdateCategoryCommand::class => UpdateCategoryHandler::class,
                 ]
             );
         };
@@ -83,13 +87,20 @@ class CommandBusServiceProvider implements ServiceProviderInterface
     {
         $container[CreateCategoryHandler::class] = function (Container $container) {
             return new CreateCategoryHandler(
-                $container[CategoryRepositoryInterface::class]
+                $container[CategoryWriteRepositoryInterface::class]
             );
         };
 
         $container[ListCategoryHandler::class] = function (Container $container) {
             return new ListCategoryHandler(
-                $container[CategoryRepositoryInterface::class]
+                $container[CategoryReadRepositoryInterface::class]
+            );
+        };
+
+        $container[UpdateCategoryHandler::class] = function (Container $container) {
+            return new UpdateCategoryHandler(
+                $container[CategoryWriteRepositoryInterface::class],
+                $container[CategoryReadRepositoryInterface::class]
             );
         };
     }

@@ -2,8 +2,10 @@
 
 namespace Checkfood\Application\ServiceProvider;
 
-use Checkfood\Domain\Repository\CategoryRepositoryInterface;
-use Checkfood\Infrastructure\Repository\CategoryRepository;
+use Checkfood\Domain\Repository\CategoryReadRepositoryInterface;
+use Checkfood\Domain\Repository\CategoryWriteRepositoryInterface;
+use Checkfood\Infrastructure\Repository\CategoryReadRepository;
+use Checkfood\Infrastructure\Repository\CategoryWriteRepository;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
@@ -22,8 +24,12 @@ class InfrastructureServiceProvider implements ServiceProviderInterface
      */
     private function registerRepository(Container $container)
     {
-        $container[CategoryRepositoryInterface::class] = function (Container $container) {
-            return new CategoryRepository($container['db']);
+        $container[CategoryReadRepositoryInterface::class] = function (Container $container) {
+            return new CategoryReadRepository($container['db']);
+        };
+
+        $container[CategoryWriteRepositoryInterface::class] = function (Container $container) {
+            return new CategoryWriteRepository($container['db']);
         };
     }
 }
