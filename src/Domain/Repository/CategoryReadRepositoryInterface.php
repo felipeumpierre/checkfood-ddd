@@ -5,7 +5,7 @@ namespace Checkfood\Domain\Repository;
 use Checkfood\Domain\Model\Category;
 use Collections\Vector;
 
-interface CategoryRepositoryInterface
+interface CategoryReadRepositoryInterface
 {
     /**
      * @param int $id
