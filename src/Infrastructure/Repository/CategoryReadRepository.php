@@ -3,10 +3,10 @@
 namespace Checkfood\Infrastructure\Repository;
 
 use Checkfood\Domain\Model\Category;
-use Checkfood\Domain\Repository\CategoryRepositoryInterface;
+use Checkfood\Domain\Repository\CategoryReadRepositoryInterface;
 use Collections\Vector;
 
-class CategoryRepository extends BaseRepository implements CategoryRepositoryInterface
+class CategoryReadRepository extends BaseRepository implements CategoryReadRepositoryInterface
 {
     /**
      * @param int $id
@@ -39,7 +39,28 @@ class CategoryRepository extends BaseRepository implements CategoryRepositoryInt
      */
     public function findAll(): Vector
     {
-        return new Vector();
+        $vector = new Vector();
+
+        $query = $this->connection->createQueryBuilder()
+            ->select('category_id', 'name')
+            ->from('category');
+
+        $stmt = $query->execute();
+        $categories = $stmt->fetchAll();
+        if (empty($categories)) {
+            return $vector;
+        }
+
+        foreach ($categories as $category) {
+            $vector->add(
+                Category::create(
+                    $category['category_id'],
+                    $category['name']
+                )
+            );
+        }
+
+        return $vector;
     }
 
     /**
@@ -50,13 +71,5 @@ class CategoryRepository extends BaseRepository implements CategoryRepositoryInt
     public function findAllMealsByCategoryId(int $id): Vector
     {
         return new Vector();
-    }
-
-    public function delete(Category $category): int
-    {
-        return $this->connection->delete(
-            'category',
-            ['category_id' => $category->getId()]
-        );
     }
 }
