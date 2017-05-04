@@ -2,38 +2,39 @@
 
 namespace Checkfood\Business\Handler\Category;
 
+use Checkfood\Business\Command\Category\ListCategoryCommand;
 use Checkfood\Business\Command\CommandInterface;
 use Checkfood\Business\Handler\HandlerInterface;
-use Checkfood\Domain\Repository\CategoryRepositoryInterface;
+use Checkfood\Domain\Repository\CategoryReadRepositoryInterface;
 
 final class ListCategoryHandler implements HandlerInterface
 {
     /**
-     * @var CategoryRepositoryInterface
+     * @var CategoryReadRepositoryInterface
      */
-    protected $categoryRepository;
+    protected $categoryReadRepository;
 
     /**
      * ListCategoryHandler constructor.
      *
-     * @param CategoryRepositoryInterface $categoryRepository
+     * @param CategoryReadRepositoryInterface $categoryRepository
      */
-    public function __construct(CategoryRepositoryInterface $categoryRepository)
+    public function __construct(CategoryReadRepositoryInterface $categoryRepository)
     {
-        $this->categoryRepository = $categoryRepository;
+        $this->categoryReadRepository = $categoryRepository;
     }
 
     /**
-     * @param CommandInterface $command
+     * @param ListCategoryCommand|CommandInterface $command
      *
      * @return mixed
      */
     public function handle(CommandInterface $command)
     {
         if (empty($command->id)) {
-            return $this->categoryRepository->findAll();
+            return $this->categoryReadRepository->findAll();
         }
 
-        return $this->categoryRepository->findById($command->id);
+        return $this->categoryReadRepository->findById($command->id);
     }
 }

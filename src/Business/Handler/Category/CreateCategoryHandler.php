@@ -2,36 +2,41 @@
 
 namespace Checkfood\Business\Handler\Category;
 
+use Checkfood\Business\Command\Category\CreateCategoryCommand;
 use Checkfood\Business\Command\CommandInterface;
 use Checkfood\Business\Handler\HandlerInterface;
-use Checkfood\Domain\Repository\CategoryRepositoryInterface;
+use Checkfood\Domain\Model\Category;
+use Checkfood\Domain\Repository\CategoryWriteRepositoryInterface;
 
 final class CreateCategoryHandler implements HandlerInterface
 {
     /**
-     * @var CategoryRepositoryInterface
+     * @var CategoryWriteRepositoryInterface
      */
     protected $categoryRepository;
 
     /**
      * CreateCategoryHandler constructor.
      *
-     * @param CategoryRepositoryInterface $categoryRepository
+     * @param CategoryWriteRepositoryInterface $categoryRepository
      */
-    public function __construct(CategoryRepositoryInterface $categoryRepository)
+    public function __construct(CategoryWriteRepositoryInterface $categoryRepository)
     {
         $this->categoryRepository = $categoryRepository;
     }
 
     /**
-     * @param CommandInterface $command
+     * @param CreateCategoryCommand|CommandInterface $command
      *
      * @return mixed
      */
     public function handle(CommandInterface $command)
     {
-        // all the business logic here
-
-        return;
+        return $this->categoryRepository->insert(
+            Category::create(
+                $command->id,
+                $command->name
+            )
+        );
     }
 }
