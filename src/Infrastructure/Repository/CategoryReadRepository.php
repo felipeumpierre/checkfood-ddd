@@ -9,9 +9,7 @@ use Collections\Vector;
 class CategoryReadRepository extends BaseRepository implements CategoryReadRepositoryInterface
 {
     /**
-     * @param int $id
-     *
-     * @return Category
+     * {@inheritdoc}
      */
     public function findById(int $id): Category
     {
@@ -21,21 +19,17 @@ class CategoryReadRepository extends BaseRepository implements CategoryReadRepos
             ->where('category_id = ?')
             ->setParameter(0, $id);
 
-        $stmt = $query->execute();
-        $category = $stmt->fetch();
+        $category = $query->execute()->fetch();
 
         if (empty($category)) {
             return new Category();
         }
 
-        return Category::create(
-            $category['category_id'],
-            $category['name']
-        );
+        return Category::factory($category);
     }
 
     /**
-     * @return Vector
+     * {@inheritdoc}
      */
     public function findAll(): Vector
     {
@@ -45,18 +39,14 @@ class CategoryReadRepository extends BaseRepository implements CategoryReadRepos
             ->select('category_id', 'name')
             ->from('category');
 
-        $stmt = $query->execute();
-        $categories = $stmt->fetchAll();
+        $categories = $query->execute()->fetchAll();
         if (empty($categories)) {
             return $vector;
         }
 
         foreach ($categories as $category) {
             $vector->add(
-                Category::create(
-                    $category['category_id'],
-                    $category['name']
-                )
+                Category::factory($category)
             );
         }
 
@@ -64,9 +54,7 @@ class CategoryReadRepository extends BaseRepository implements CategoryReadRepos
     }
 
     /**
-     * @param int $id
-     *
-     * @return Vector
+     * {@inheritdoc}
      */
     public function findAllMealsByCategoryId(int $id): Vector
     {

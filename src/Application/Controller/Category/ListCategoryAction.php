@@ -32,14 +32,12 @@ final class ListCategoryAction
      */
     public function __invoke(Request $request)
     {
-        $response = $this->bus->handle(
-            new ListCategoryCommand(
-                $request->get('id')
-            )
-        );
-
         return new JsonResponse(
-            $response,
+            $this->bus->handle(
+                new ListCategoryCommand(
+                    $request->get('id')
+                )
+            ),
             Response::HTTP_OK
         );
     }

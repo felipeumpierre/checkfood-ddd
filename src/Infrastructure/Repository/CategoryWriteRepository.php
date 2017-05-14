@@ -14,7 +14,11 @@ class CategoryWriteRepository extends BaseRepository implements CategoryWriteRep
     {
         return $this->connection->insert(
             'category',
-            $category->toArray()
+            [
+                'uuid' => $category->getUuid(),
+                'name' => $category->getName(),
+                'created_at' => $category->getCreatedAt(),
+            ]
         );
     }
 
@@ -25,19 +29,19 @@ class CategoryWriteRepository extends BaseRepository implements CategoryWriteRep
     {
         return $this->connection->update(
             'category',
-            $category->toArray(),
-            ['id' => $category->getId()]
+            (array) $category,
+            ['uuid' => $category->getUuid()]
         );
     }
 
     /**
      * {@inheritdoc}
      */
-    public function delete(int $id): int
+    public function delete(string $uuid): int
     {
         return $this->connection->delete(
             'category',
-            ['id' => $id]
+            ['uuid' => $uuid]
         );
     }
 }

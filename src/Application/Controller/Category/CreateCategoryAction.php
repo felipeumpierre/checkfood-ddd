@@ -16,9 +16,11 @@ final class CreateCategoryAction
     protected $bus;
 
     /**
+     * CreateCategoryAction constructor.
+     *
      * @param CommandBus $bus
      */
-    public function __constructor(CommandBus $bus)
+    public function __construct(CommandBus $bus)
     {
         $this->bus = $bus;
     }
@@ -30,11 +32,9 @@ final class CreateCategoryAction
      */
     public function __invoke(Request $request)
     {
-        $id = (string) Uuid::uuid4();
-
         $this->bus->handle(
             new CreateCategoryCommand(
-                $id,
+                (string) Uuid::uuid4(),
                 $request->request->get('name')
             )
         );

@@ -5,9 +5,9 @@ namespace Checkfood\Business\Command\Category;
 final class CreateCategoryCommand
 {
     /**
-     * @var int
+     * @var string
      */
-    public $id;
+    public $uuid;
 
     /**
      * @var string
@@ -17,12 +17,12 @@ final class CreateCategoryCommand
     /**
      * CreateCategoryCommand constructor.
      *
-     * @param int $id
+     * @param string $uuid
      * @param string $name
      */
-    public function __construct(int $id, string $name)
+    public function __construct(string $uuid, string $name)
     {
-        $this->id = $id;
+        $this->uuid = $uuid;
         $this->name = $name;
     }
 }

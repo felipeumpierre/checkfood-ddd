@@ -2,9 +2,7 @@
 
 namespace Checkfood\Business\Command\Category;
 
-use Checkfood\Business\Command\CommandInterface;
-
-final class UpdateCategoryCommand implements CommandInterface
+final class UpdateCategoryCommand
 {
     /**
      * @var int|null

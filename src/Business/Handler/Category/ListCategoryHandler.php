@@ -3,11 +3,9 @@
 namespace Checkfood\Business\Handler\Category;
 
 use Checkfood\Business\Command\Category\ListCategoryCommand;
-use Checkfood\Business\Command\CommandInterface;
-use Checkfood\Business\Handler\HandlerInterface;
 use Checkfood\Domain\Repository\CategoryReadRepositoryInterface;
 
-final class ListCategoryHandler implements HandlerInterface
+final class ListCategoryHandler
 {
     /**
      * @var CategoryReadRepositoryInterface
@@ -25,11 +23,11 @@ final class ListCategoryHandler implements HandlerInterface
     }
 
     /**
-     * @param ListCategoryCommand|CommandInterface $command
+     * @param ListCategoryCommand $command
      *
      * @return mixed
      */
-    public function handle(CommandInterface $command)
+    public function handle(ListCategoryCommand $command)
     {
         if (empty($command->id)) {
             return $this->categoryReadRepository->findAll();

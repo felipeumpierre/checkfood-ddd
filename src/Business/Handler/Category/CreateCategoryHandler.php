@@ -3,12 +3,10 @@
 namespace Checkfood\Business\Handler\Category;
 
 use Checkfood\Business\Command\Category\CreateCategoryCommand;
-use Checkfood\Business\Command\CommandInterface;
-use Checkfood\Business\Handler\HandlerInterface;
 use Checkfood\Domain\Model\Category;
 use Checkfood\Domain\Repository\CategoryWriteRepositoryInterface;
 
-final class CreateCategoryHandler implements HandlerInterface
+final class CreateCategoryHandler
 {
     /**
      * @var CategoryWriteRepositoryInterface
@@ -26,15 +24,15 @@ final class CreateCategoryHandler implements HandlerInterface
     }
 
     /**
-     * @param CreateCategoryCommand|CommandInterface $command
+     * @param CreateCategoryCommand $command
      *
      * @return mixed
      */
-    public function handle(CommandInterface $command)
+    public function handle(CreateCategoryCommand $command)
     {
         return $this->categoryRepository->insert(
             Category::create(
-                $command->id,
+                $command->uuid,
                 $command->name
             )
         );

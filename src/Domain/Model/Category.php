@@ -2,6 +2,8 @@
 
 namespace Checkfood\Domain\Model;
 
+use Ramsey\Uuid\Uuid;
+
 final class Category extends Aggregate\AggregateId implements \JsonSerializable
 {
     /**
@@ -10,16 +12,37 @@ final class Category extends Aggregate\AggregateId implements \JsonSerializable
     protected $name;
 
     /**
-     * @param int $id
-     * @param string $name
+     * @var string
+     */
+    protected $createdAt;
+
+    /**
+     * @param array $elem
      *
      * @return self
      */
-    public static function create(int $id, string $name): self
+    public static function factory(array $elem): self
+    {
+        return self::create(
+            $elem['uuid'] ?? Uuid::uuid4(),
+            $elem['name'],
+            $elem['createdAt'] ?? null
+        );
+    }
+
+    /**
+     * @param string $uuid
+     * @param string $name
+     * @param string|null $createdAt
+     *
+     * @return Category
+     */
+    public static function create(string $uuid, string $name, string $createdAt = null): self
     {
         $category = new self;
-        $category->id = $id;
+        $category->uuid = $uuid;
         $category->name = $name;
+        $category->createdAt = $createdAt ?? (new \DateTimeImmutable())->format(DATE_ISO8601);
 
         return $category;
     }
@@ -30,6 +53,14 @@ final class Category extends Aggregate\AggregateId implements \JsonSerializable
     public function getName(): string
     {
         return $this->name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
     }
 
     /**
@@ -45,11 +76,12 @@ final class Category extends Aggregate\AggregateId implements \JsonSerializable
     /**
      * {@inheritdoc}
      */
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return [
-            'id' => $this->id,
+            'uuid' => $this->uuid,
             'name' => $this->name,
+            'created_at' => $this->createdAt
         ];
     }
 }

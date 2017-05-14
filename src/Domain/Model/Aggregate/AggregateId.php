@@ -5,15 +5,15 @@ namespace Checkfood\Domain\Model\Aggregate;
 class AggregateId
 {
     /**
-     * @param int $id
+     * @param int $uuid
      */
-    protected $id;
+    protected $uuid;
 
     /**
      * @return int
      */
-    public function getId()
+    public function getUuid()
     {
-        return $this->id;
+        return $this->uuid;
     }
 }

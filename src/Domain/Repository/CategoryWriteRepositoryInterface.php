@@ -21,9 +21,9 @@ interface CategoryWriteRepositoryInterface
     public function update(Category $category): int;
 
     /**
-     * @param int $id
+     * @param string $uuid
      *
      * @return int
      */
-    public function delete(int $id): int;
+    public function delete(string $uuid): int;
 }

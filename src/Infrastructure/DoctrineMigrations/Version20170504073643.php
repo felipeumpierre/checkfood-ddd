@@ -4,6 +4,7 @@ namespace Checkfood\Infrastructure\DoctrineMigrations;
 
 use Doctrine\DBAL\Migrations\AbstractMigration;
 use Doctrine\DBAL\Schema\Schema;
+use Ramsey\Uuid\Uuid;
 
 /**
  * Auto-generated Migration: Please modify to your needs!
@@ -18,21 +19,24 @@ class Version20170504073643 extends AbstractMigration
         $this->connection->insert(
             'category',
             [
-                'name' => 'Test 1'
+                'uuid' => Uuid::uuid4(),
+                'name' => 'Test 1',
             ]
         );
 
         $this->connection->insert(
             'category',
             [
-                'name' => 'Test 2'
+                'uuid' => Uuid::uuid4(),
+                'name' => 'Test 2',
             ]
         );
 
         $this->connection->insert(
             'category',
             [
-                'name' => 'Test 3'
+                'uuid' => Uuid::uuid4(),
+                'name' => 'Test 3',
             ]
         );
     }

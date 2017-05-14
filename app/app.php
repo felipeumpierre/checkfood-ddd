@@ -10,12 +10,11 @@ use WhoopsPimple\WhoopsServiceProvider;
 $app = new Silex\Application();
 
 $app->register(new Silex\Provider\ServiceControllerServiceProvider());
-
 $app->register(new WhoopsServiceProvider());
 $app->register(new DoctrineServiceProvider());
 $app->register(new MigrationDoctrineServiceProvider());
-$app->register(new ApplicationServiceProvider());
 $app->register(new CommandBusServiceProvider());
 $app->register(new InfrastructureServiceProvider());
+$app->register(new ApplicationServiceProvider());
 
 return $app;

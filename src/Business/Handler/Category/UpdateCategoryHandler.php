@@ -2,13 +2,11 @@
 
 namespace Checkfood\Business\Handler\Category;
 
-use Checkfood\Business\Command\CommandInterface;
-use Checkfood\Business\Handler\HandlerInterface;
 use Checkfood\Business\Command\Category\UpdateCategoryCommand;
 use Checkfood\Domain\Repository\CategoryReadRepositoryInterface;
 use Checkfood\Domain\Repository\CategoryWriteRepositoryInterface;
 
-final class UpdateCategoryHandler implements HandlerInterface
+final class UpdateCategoryHandler
 {
     /**
      * @var CategoryWriteRepositoryInterface
@@ -35,11 +33,11 @@ final class UpdateCategoryHandler implements HandlerInterface
     }
 
     /**
-     * @param UpdateCategoryCommand|CommandInterface $command
+     * @param UpdateCategoryCommand $command
      *
      * @return mixed
      */
-    public function handle(CommandInterface $command)
+    public function handle(UpdateCategoryCommand $command)
     {
         $category = $this->categoryReadRepository->findById($command->id);
         if (empty($category)) {

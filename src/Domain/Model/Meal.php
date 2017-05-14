@@ -2,6 +2,8 @@
 
 namespace Checkfood\Domain\Model;
 
+use Ramsey\Uuid\Uuid;
+
 class Meal extends Aggregate\AggregateId implements \JsonSerializable
 {
     /**
@@ -15,16 +17,30 @@ class Meal extends Aggregate\AggregateId implements \JsonSerializable
     protected $price;
 
     /**
-     * @param int $id
+     * @param array $elem
+     *
+     * @return self
+     */
+    public static function factory(array $elem): self
+    {
+        return self::create(
+            $elem['uuid'],
+            $elem['fk_category'],
+            $elem['price']
+        );
+    }
+
+    /**
+     * @param string $uuid
      * @param int $categoryId
      * @param double $price
      *
      * @return self
      */
-    public function create(int $id, int $categoryId, double $price): self
+    public function create(string $uuid, int $categoryId, double $price): self
     {
         $meal = new self;
-        $meal->id = $id;
+        $meal->uuid = $uuid;
         $meal->categoryId = $categoryId;
         $meal->price = $price;
         
@@ -63,7 +79,7 @@ class Meal extends Aggregate\AggregateId implements \JsonSerializable
     public function jsonSerialize()
     {
         return [
-            'id' => $this->id,
+            'uuid' => $this->uuid,
             'category_id' => $this->categoryId,
             'price' => $this->price,
         ];

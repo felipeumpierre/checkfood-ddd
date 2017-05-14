@@ -18,7 +18,9 @@ class Version20170501161651 extends AbstractMigration
     {
         $table = $schema->createTable('category');
         $table->addColumn('category_id', Type::INTEGER, ['unsigned' => true, 'autoincrement' => true]);
+        $table->addColumn('uuid', Type::STRING, ['length' => 60]);
         $table->addColumn('name', Type::STRING, ['length' => 100]);
+        $table->addColumn('created_at', Type::DATETIME);
 
         $table->setPrimaryKey(['category_id']);
     }
